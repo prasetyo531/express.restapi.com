@@ -3,13 +3,13 @@ import bodyParser from "body-parser";
 import pg from "pg";
 
 const app = express();
-const port = 3000;
+const port = 5001;
 
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "world",
-  password: "123456",
+  password: "Budi1992",
   port: 5432,
 });
 db.connect();
@@ -17,20 +17,16 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-async function checkVisisted() {
-  const result = await db.query("SELECT country_code FROM visited_countries");
-
-  let countries = [];
-  result.rows.forEach((country) => {
-    countries.push(country.country_code);
-  });
-  return countries;
-}
-
 // GET home page
 app.get("/", async (req, res) => {
-  const countries = await checkVisisted();
-  res.render("index.ejs", { countries: countries, total: countries.length });
+  const result = await db.query("SELECT country_code FROM visited_countries");
+  let country = [];
+  result.rows.forEach((c) => {
+    country.push(c.country_code);
+  });
+  console.log(result.rows);
+  // first key is always from ejs file
+  res.render("index.ejs", { countries: country, total: country.length });
 });
 
 //INSERT new country
