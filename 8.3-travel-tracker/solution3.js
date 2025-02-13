@@ -43,7 +43,9 @@ app.post("/add", async (req, res) => {
       [input]
     );
 
+    //query find rows
     const data = result.rows[0];
+    //find field
     const countryCode = data.country_code;
     try {
       await db.query(

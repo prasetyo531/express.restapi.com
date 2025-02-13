@@ -12,6 +12,7 @@ const db = new pg.Client({
   password: "Budi1992",
   port: 5432,
 });
+
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,6 +33,8 @@ app.get("/", async (req, res) => {
 //INSERT new country
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
+
+  console.log(input);
 
   const result = await db.query(
     "SELECT country_code FROM countries WHERE country_name = $1",
